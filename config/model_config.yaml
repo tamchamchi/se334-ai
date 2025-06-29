@@ -1,0 +1,5 @@
+predictor:
+  multilingual:
+    model_name: "tabularisai/multilingual-sentiment-analysis"
+    device: "cuda"
+    seed: 42
