@@ -169,7 +169,7 @@ predictor:
     model_name: "tabularisai/multilingual-sentiment-analysis"
     device: "cuda"
     seed: 42
-
+```
 ## 📁 Project Structure
 
 ```
