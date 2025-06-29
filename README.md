@@ -198,7 +198,7 @@ se334-ai/
 
 #### 📓 Quickstart Notebook (RECOMMENDED)
 
-📎 **Notebook**: [`notebooks/se334_ai_kaggle_api.ipynb`](notebooks/se334_ai_kaggle_api.ipynb)
+📎 **Notebook**: [`./notebooks/se334_ai_kaggle_api.ipynb`](./notebooks/se334_ai_kaggle_api.ipynb)
 
 > A complete step-by-step Kaggle notebook to clone, install, deploy, and test the API within 3 minutes.
 
