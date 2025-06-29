@@ -191,61 +191,99 @@ se334-ai/
 └── README.md             # This file
 ```
 
-## 🔍 Troubleshooting
+## 🚀 Deployment Options
 
-### Common Issues
+### 🔥 Kaggle Deployment (Recommended for Testing)
 
-1. **Out of Memory Error**
-   ```bash
-   # Reduce batch size or use CPU
-   export CUDA_VISIBLE_DEVICES=""
-   ```
 
-2. **Model Download Issues**
-   ```bash
-   # Manual model download
-   python -c "from transformers import AutoTokenizer, AutoModel; AutoTokenizer.from_pretrained('model_name'); AutoModel.from_pretrained('model_name')"
-   ```
+#### 📓 Quickstart Notebook (RECOMMENDED)
 
-3. **Port Already in Use**
-   ```bash
-   # Use different port
-   uvicorn api.main:app --port 8001
-   ```
+📎 **Notebook**: [`notebooks/se334-ai-kaggle-api.ipynb`](notebooks/se334-ai-kaggle-api.ipynb)
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
-## 🙏 Acknowledgments
-
-- **Author**: Nguyễn Duy Tâm Anh
-- **Email**: anhndt.work@gmail.com
-- **GitHub**: https://github.com/anhndt/se334-ai
-
-## 📚 References
-
-- [FastAPI Documentation](https://fastapi.tiangolo.com/)
-- [Transformers Documentation](https://huggingface.co/docs/transformers/)
-- [PyTorch Documentation](https://pytorch.org/docs/)
-- [spaCy Documentation](https://spacy.io/)
-
-## 🆘 Support
-
-If you encounter any issues or have questions:
-
-1. Check the [Issues](https://github.com/anhndt/se334-ai/issues) page
-2. Create a new issue with detailed information
-3. Contact the author via email
+> A complete step-by-step Kaggle notebook to clone, install, deploy, and test the API within 3 minutes.
 
 ---
 
-⭐ **If you find this project helpful, please give it a star!** ⭐
+Deploy and test your API quickly on Kaggle with ngrok tunneling:
+
+#### Step 1: Create Kaggle Notebook
+
+1. Go to [Kaggle Notebooks](https://www.kaggle.com/code)
+2. Create a new notebook
+3. Enable Internet access in notebook settings
+
+#### Step 2: Setup Code
+
+```python
+# Clone the repository
+!git clone https://github.com/anhndt/se334-ai.git
+%cd /kaggle/working/se334-ai
+
+# Install the package
+!pip install -e .
+
+# Install ngrok for public URL
+!pip install pyngrok
+
+# Add your ngrok authtoken (get from https://ngrok.com/)
+!ngrok config add-authtoken "YOUR_NGROK_TOKEN_HERE"
+```
+
+#### Step 3: Deploy API
+
+```python
+from pyngrok import ngrok
+import uvicorn
+import threading
+
+# Create public tunnel
+public_url = ngrok.connect(8000)
+print("🔥 Public URL:", public_url)
+
+# Run FastAPI in background
+def run_api():
+    uvicorn.run("api.main:app", host="0.0.0.0", port=8000)
+
+threading.Thread(target=run_api).start()
+```
+
+#### Step 4: Test the API
+
+Access your API via:
+- **Swagger UI**: `https://<your-ngrok-url>.ngrok-free.app/docs`
+- **API Endpoint**: `https://<your-ngrok-url>.ngrok-free.app/predict`
+
+**Test with curl:**
+```bash
+curl -X POST "https://<your-ngrok-url>.ngrok-free.app/predict" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "texts": [
+         "I love this product!",
+         "Dịch vụ rất tốt!",
+         "The service was terrible."
+       ]
+     }'
+```
+
+**Test with Python:**
+```python
+import requests
+
+# Use your ngrok URL
+base_url = "https://your-ngrok-url.ngrok-free.app"
+
+response = requests.post(
+    f"{base_url}/predict",
+    json={
+        "texts": [
+            "This is amazing!",
+            "Sản phẩm tuyệt vời!",
+            "Could be better..."
+        ]
+    }
+)
+
+print("✅ API Response:")
+print(response.json())
+```
