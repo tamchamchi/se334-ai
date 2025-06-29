@@ -151,25 +151,24 @@ Content-Type: application/json
 - `config/config.yaml`: General application configuration
 - `config/model_config.yaml`: Machine learning model configuration
 
-### Environment Variables
+### Model Configuration Example
 
-Create a `.env` file in the root directory:
+The `model_config.yaml` file contains detailed configurations for different sentiment analysis models:
 
-```env
-# API Configuration
-API_HOST=0.0.0.0
-API_PORT=8000
-API_DEBUG=True
+```yaml
+# Default settings
+default:
+  model_name: "multilingual_predictor"
+  device: "auto"
+  batch_size: 32
+  max_length: 512
 
-# Model Configuration
-DEFAULT_MODEL=multilingual_predictor
-MODEL_CACHE_DIR=./models
-ENABLE_GPU=True
-
-# Logging
-LOG_LEVEL=INFO
-LOG_FILE=logs/app.log
-```
+# Model configurations
+predictor:
+  multilingual:
+    model_name: "tabularisai/multilingual-sentiment-analysis"
+    device: "cuda"
+    seed: 42
 
 ## 📁 Project Structure
 
