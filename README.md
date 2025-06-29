@@ -192,90 +192,6 @@ se334-ai/
 └── README.md             # This file
 ```
 
-## 🚀 Production Deployment
-
-### Docker (Recommended)
-
-```bash
-# Build image
-docker build -t se334-sentiment-api .
-
-# Run container
-docker run -p 8000:8000 se334-sentiment-api
-```
-
-### Docker Compose
-
-```yaml
-version: '3.8'
-services:
-  sentiment-api:
-    build: .
-    ports:
-      - "8000:8000"
-    environment:
-      - API_HOST=0.0.0.0
-      - API_PORT=8000
-    volumes:
-      - ./models:/app/models
-```
-
-### systemd Service
-
-```bash
-# Copy service file
-sudo cp deployment/sentiment-api.service /etc/systemd/system/
-
-# Enable and start
-sudo systemctl enable sentiment-api
-sudo systemctl start sentiment-api
-```
-
-### Nginx Reverse Proxy
-
-```nginx
-server {
-    listen 80;
-    server_name your-domain.com;
-    
-    location / {
-        proxy_pass http://127.0.0.1:8000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
-```
-
-## 🎯 Performance Optimization
-
-### GPU Acceleration
-
-```python
-# Enable GPU in config
-ENABLE_GPU=True
-CUDA_VISIBLE_DEVICES=0
-```
-
-### Model Caching
-
-```python
-# Models are automatically cached after first load
-MODEL_CACHE_DIR=./models
-CACHE_MODELS=True
-```
-
-### Batch Processing
-
-For better performance with multiple texts, use the batch endpoint:
-
-```python
-# Instead of multiple single requests
-texts = ["text1", "text2", "text3"]
-response = requests.post(f"{base_url}/api/v1/predict/batch", json={"texts": texts})
-```
-
 ## 🔍 Troubleshooting
 
 ### Common Issues
@@ -298,24 +214,6 @@ response = requests.post(f"{base_url}/api/v1/predict/batch", json={"texts": text
    uvicorn api.main:app --port 8001
    ```
 
-## 📈 Monitoring
-
-### Health Checks
-
-```bash
-# API health
-curl http://localhost:8000/api/v1/health
-
-# Detailed status
-curl http://localhost:8000/api/v1/status
-```
-
-### Logging
-
-Logs are available in:
-- Console output (development)
-- `logs/app.log` (production)
-
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -323,21 +221,6 @@ Logs are available in:
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
-
-### Development Setup
-
-```bash
-# Install development dependencies
-pip install -e ".[dev]"
-
-# Run pre-commit hooks
-pre-commit install
-
-# Run tests before committing
-pytest
-black .
-flake8
-```
 
 ## 📄 License
 
