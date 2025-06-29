@@ -1,4 +1,4 @@
-from base import IPredictor
+from .base import IPredictor
 from typing import Type
 
 
