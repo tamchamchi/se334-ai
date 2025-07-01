@@ -11,12 +11,12 @@ cfg_multilingual_model = config["predictor"]["multilingual"]
 
 PredictorFactory.register("multilingual", MultilingualPredictor)
 
-predictor = PredictorFactory.create("multilingual",**cfg_multilingual_model)
+predictor = PredictorFactory.create("multilingual", **cfg_multilingual_model)
 
 app = FastAPI(title="Sentiment Analysis API")
 
 
 @app.post("/predict", response_model=PredictResponse)
 def predict(request: PredictRequest):
-    results = predictor.run(request.texts)
+    results = predictor.run(request.sentences)
     return {"results": results}

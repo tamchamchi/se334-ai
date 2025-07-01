@@ -25,11 +25,11 @@ class MultilingualPredictor(IPredictor):
         self.model.eval()
 
         self.label_map = {
-            0: "Negative",
-            1: "Negative",
-            2: "Neutral",
-            3: "Positive",
-            4: "Positive",
+            0: "negative",
+            1: "negative",
+            2: "neutral",
+            3: "positive",
+            4: "positive",
         }
 
     def _load_model(self):
@@ -62,7 +62,7 @@ class MultilingualPredictor(IPredictor):
 
             for text, label_id in zip(batch, preds.tolist()):
                 predictions.append(
-                    {"text": text, "label": self.label_map[label_id]})
+                    {"sentence": text, "label": self.label_map[label_id]})
 
         return predictions
 
